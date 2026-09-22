@@ -8,12 +8,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
-            --card-bg: #ffffff;
-            --text-main: #1F2937;
-            --text-muted: #6B7280;
+            /* Vibrant Gradient & Modern Color Tokens */
+            --bg-gradient: linear-gradient(135deg, #0F172A 0%, #311042 40%, #1E1B4B 100%);
+            --header-gradient: linear-gradient(135deg, #FF007A 0%, #7E22CE 50%, #3B82F6 100%);
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-main: #0F172A;
+            --text-muted: #475569;
             --accent-green: #10B981;
-            --accent-indigo: #4F46E5;
+            --accent-purple: #8B5CF6;
         }
 
         * {
@@ -24,7 +26,7 @@
         }
 
         body {
-            background: var(--primary-gradient);
+            background: var(--bg-gradient);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -35,114 +37,134 @@
 
         .container {
             background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            border-radius: 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 40px rgba(236, 72, 153, 0.2);
             width: 100%;
             max-width: 440px;
             overflow: hidden;
             text-align: center;
             animation: fadeIn 0.4s ease-out;
             position: relative;
+            backdrop-filter: blur(10px);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .header {
-            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            background: var(--header-gradient);
             color: white;
-            padding: 35px 20px 25px;
+            padding: 38px 20px 28px;
             position: relative;
+            box-shadow: 0 8px 25px rgba(255, 0, 122, 0.3);
         }
 
         .admin-toggle-btn {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             color: white;
-            padding: 6px 12px;
+            padding: 7px 14px;
             border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
         .admin-toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.45);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
         }
 
         .header h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 800;
             margin-bottom: 4px;
             word-wrap: break-word;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .header p {
-            font-size: 0.85rem;
-            opacity: 0.9;
+            font-size: 0.88rem;
+            opacity: 0.95;
+            font-weight: 500;
         }
 
         .badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.25);
-            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 5px 14px;
             border-radius: 20px;
             font-size: 0.75rem;
-            margin-top: 10px;
+            margin-top: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .content {
-            padding: 25px 24px;
+            padding: 28px 24px;
         }
 
         .amount-box {
-            background: #F3F4F6;
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 100%);
+            border: 1px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 22px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 4px 12px rgba(79, 70, 229, 0.08);
         }
 
         .amount-box label {
             display: block;
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: #64748B;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             margin-bottom: 4px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .amount-box .value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--text-main);
+            font-size: 2.4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .service-note-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            font-weight: 500;
+            font-size: 0.88rem;
+            color: #475569;
+            margin-top: 6px;
+            font-weight: 600;
         }
 
         .qr-wrapper {
             background: #ffffff;
-            border: 2px dashed #E5E7EB;
-            border-radius: 16px;
-            padding: 18px;
+            border: 2px dashed #CBD5E1;
+            border-radius: 20px;
+            padding: 20px;
             display: inline-block;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 22px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-wrapper:hover {
+            transform: scale(1.02);
+            border-color: #8B5CF6;
         }
 
         #qrcode {
@@ -151,55 +173,99 @@
         }
 
         #qrcode img {
-            border-radius: 8px;
+            border-radius: 12px;
         }
 
         .upi-apps {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .upi-chip {
-            background: #F9FAFB;
-            border: 1px solid #E5E7EB;
-            border-radius: 8px;
-            padding: 6px 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
+            background: linear-gradient(135deg, #F1F5F9, #E2E8F0);
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            padding: 7px 12px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #334155;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s;
+        }
+
+        .upi-chip:hover {
+            background: #FFFFFF;
+            border-color: #94A3B8;
+            transform: translateY(-1px);
         }
 
         .btn-pay {
             display: block;
             width: 100%;
-            background: linear-gradient(135deg, #10B981, #059669);
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
             color: white;
             text-decoration: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
-            transition: all 0.2s ease;
+            padding: 16px;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.05rem;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
         }
 
         .btn-pay:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(16, 185, 129, 0.6);
+            background: linear-gradient(135deg, #34D399 0%, #059669 100%);
+        }
+
+        .confirm-section {
+            margin-top: 18px;
+            border-top: 1px dashed #CBD5E1;
+            padding-top: 16px;
+        }
+
+        .confirm-section p {
+            font-size: 0.82rem;
+            color: #475569;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-confirm:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
         }
 
         .footer {
-            padding: 15px 20px 20px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            border-top: 1px solid #F3F4F6;
+            padding: 16px 20px 22px;
+            font-size: 0.78rem;
+            color: #64748B;
+            border-top: 1px solid #F1F5F9;
+            background: #FAF5FF;
+            font-weight: 500;
         }
 
         .footer span {
-            color: var(--accent-green);
-            font-weight: 600;
+            color: #10B981;
+            font-weight: 700;
         }
 
         /* ADMIN / MODAL STYLES */
@@ -210,8 +276,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -222,9 +288,9 @@
             background: white;
             width: 100%;
             max-width: 400px;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 30px rgba(126, 34, 206, 0.3);
             text-align: left;
             animation: popIn 0.3s ease-out;
         }
@@ -238,73 +304,113 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .modal-header h3 {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             color: var(--text-main);
+            font-weight: 800;
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             cursor: pointer;
             color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #EF4444;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #D1D5DB;
-            border-radius: 8px;
+            padding: 12px 14px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 10px;
             font-size: 0.95rem;
             outline: none;
-            transition: border 0.2s;
+            transition: all 0.2s;
         }
 
         .form-group input:focus {
-            border-color: var(--accent-indigo);
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
         }
 
         .btn-submit {
             width: 100%;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.95rem;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.98rem;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
         }
 
         .error-msg {
             color: #EF4444;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             margin-top: 8px;
             display: none;
             text-align: center;
+            font-weight: 600;
+        }
+
+        /* Success Receipt Card */
+        .receipt-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: left;
+            font-size: 0.88rem;
+            line-height: 2;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #F1F5F9;
+        }
+
+        .receipt-row:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="gatewayContainer">
     <div class="header">
         <button class="admin-toggle-btn" onclick="openAdminModal()">⚙️ Admin Login</button>
         <h2 id="merchant-title">Melvin Sai Infotech</h2>
@@ -331,6 +437,13 @@
         </div>
 
         <a id="upi-link" class="btn-pay" href="#">Open UPI App to Pay</a>
+
+        <div class="confirm-section">
+            <p>Finished payment in your UPI app?</p>
+            <button class="btn-confirm" onclick="confirmPaymentProcess()">
+                ✅ Confirm Payment / Done
+            </button>
+        </div>
     </div>
 
     <div class="footer">
@@ -387,7 +500,7 @@
 <script>
     // Initial Default Configuration
     let paymentConfig = {
-        vpa: "8056202411@superyes",                  // Set your default VPA here
+        vpa: "yourbusiness@upi",                  // Set your default VPA here
         name: "Melvin Sai Infotech",               
         amount: "100.00",                         
         note: "Order Payment",  
@@ -427,12 +540,68 @@
             text: upiUri,
             width: 180,
             height: 180,
-            colorDark: "#4F46E5",
+            colorDark: "#7C3AED",
             colorLight: "#FFFFFF",
             correctLevel: QRCode.CorrectLevel.H
         });
 
         document.getElementById("upi-link").href = upiUri;
+    }
+
+    // Payment Confirmation Handler
+    function confirmPaymentProcess() {
+        const utr = prompt("Enter 12-Digit UPI Ref / UTR Number from your payment app:");
+        
+        if (utr && utr.trim().length >= 8) {
+            const container = document.getElementById("gatewayContainer");
+            
+            container.innerHTML = `
+                <div style="background: linear-gradient(135deg, #10B981, #059669); padding: 35px 20px 25px; color: white;">
+                    <div style="font-size: 3.5rem; margin-bottom: 5px; animation: popIn 0.4s ease;">🎉</div>
+                    <h2 style="font-size: 1.8rem; font-weight: 800;">Payment Successful!</h2>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">Transaction confirmed by customer</p>
+                </div>
+                
+                <div class="content">
+                    <p style="color: #475569; font-weight: 600; font-size: 0.95rem;">
+                        Thank you for your payment to <br><b style="color: #0F172A; font-size: 1.1rem;">${paymentConfig.name}</b>
+                    </p>
+
+                    <div class="receipt-card">
+                        <div class="receipt-row">
+                            <span style="color: #64748B;">Service:</span>
+                            <b style="color: #0F172A;">${paymentConfig.note}</b>
+                        </div>
+                        <div class="receipt-row">
+                            <span style="color: #64748B;">Amount Paid:</span>
+                            <b style="color: #10B981; font-size: 1.1rem;">₹${parseFloat(paymentConfig.amount).toFixed(2)}</b>
+                        </div>
+                        <div class="receipt-row">
+                            <span style="color: #64748B;">Order Ref ID:</span>
+                            <b style="color: #0F172A;">${paymentConfig.txnRef}</b>
+                        </div>
+                        <div class="receipt-row">
+                            <span style="color: #64748B;">UPI UTR / Ref No:</span>
+                            <b style="color: #4F46E5;">${utr.trim()}</b>
+                        </div>
+                        <div class="receipt-row">
+                            <span style="color: #64748B;">Status:</span>
+                            <b style="color: #10B981;">SUCCESS ✅</b>
+                        </div>
+                    </div>
+
+                    <button class="btn-pay" style="margin-top: 22px;" onclick="window.location.href='index.html'">
+                        Return to Home Page
+                    </button>
+                </div>
+
+                <div class="footer">
+                    🔒 Receipt generated for <span>${paymentConfig.name}</span>
+                </div>
+            `;
+        } else if (utr !== null) {
+            alert("Please enter a valid 12-Digit UPI Reference Number.");
+        }
     }
 
     // Modal Functions
