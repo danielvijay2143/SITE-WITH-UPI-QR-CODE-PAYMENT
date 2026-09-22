@@ -36,6 +36,28 @@
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        /* Top Right Admin Button */
+        .admin-login-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.2s ease;
+        }
+
+        .admin-login-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
         }
 
         .hero h1 {
@@ -177,12 +199,53 @@
             font-size: 0.8rem;
             color: var(--text-muted);
         }
+
+        /* Modal / Popups Style */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
 
     <!-- Header / Hero Banner -->
     <div class="hero">
+        <button class="admin-login-btn" onclick="openAdminModal()">🔑 Admin Login</button>
         <h1>Melvin Sai Infotech</h1>
         <p>Government & Financial Services Portal</p>
         <span class="badge">Fast • Reliable • Instant Payment</span>
@@ -190,7 +253,7 @@
 
     <!-- Main Content -->
     <div class="main-container">
-        <div class="services-grid">
+        <div class="services-grid" id="servicesGrid">
 
             <!-- Service Card 1 -->
             <div class="card">
@@ -269,6 +332,48 @@
         </div>
     </div>
 
+    <!-- Admin Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h3>Admin Login</h3>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="adminUser" placeholder="Enter Username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="adminPass" placeholder="Enter Password">
+            </div>
+            <button class="btn-pay" style="margin-top: 10px;" onclick="handleLogin()">Login</button>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal (Add Service) -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
+            <h3>Add New Service</h3>
+            <div class="form-group">
+                <label>Icon (Emoji)</label>
+                <input type="text" id="newIcon" placeholder="e.g. 📄">
+            </div>
+            <div class="form-group">
+                <label>Service Name</label>
+                <input type="text" id="newName" placeholder="e.g. Income Certificate">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" id="newDesc" placeholder="e.g. Government issued income certificate">
+            </div>
+            <div class="form-group">
+                <label>Price (₹)</label>
+                <input type="number" id="newPrice" placeholder="e.g. 60.00" step="0.01">
+            </div>
+            <button class="btn-pay" style="margin-top: 10px;" onclick="addNewService()">Add Service</button>
+        </div>
+    </div>
+
     <script>
         // Function to route fixed service clicks to payment.html
         function payForService(serviceName, price) {
@@ -288,6 +393,71 @@
             }
 
             payForService(serviceName, price);
+        }
+
+        // Modal Controls
+        function openAdminModal() {
+            document.getElementById("loginModal").style.display = "flex";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Admin Authentication
+        function handleLogin() {
+            const user = document.getElementById("adminUser").value.trim();
+            const pass = document.getElementById("adminPass").value.trim();
+
+            if (user === "VIJAY" && pass === "2143") {
+                closeModal("loginModal");
+                document.getElementById("adminUser").value = "";
+                document.getElementById("adminPass").value = "";
+                document.getElementById("adminModal").style.display = "flex";
+            } else {
+                alert("Invalid Username or Password!");
+            }
+        }
+
+        // Dynamic Service Creation
+        function addNewService() {
+            const icon = document.getElementById("newIcon").value.trim() || "⚡";
+            const name = document.getElementById("newName").value.trim();
+            const desc = document.getElementById("newDesc").value.trim();
+            const price = document.getElementById("newPrice").value.trim();
+
+            if (!name || !desc || !price || isNaN(price) || parseFloat(price) <= 0) {
+                alert("Please fill out all service details properly!");
+                return;
+            }
+
+            const formattedPrice = parseFloat(price).toFixed(2);
+
+            // Create HTML element for the new card
+            const newCard = document.createElement("div");
+            newCard.className = "card";
+            newCard.innerHTML = `
+                <div>
+                    <div class="card-icon">${icon}</div>
+                    <h3>${name}</h3>
+                    <p>${desc}</p>
+                </div>
+                <div>
+                    <div class="price-tag">₹${formattedPrice}</div>
+                    <button class="btn-pay" onclick="payForService('${name}', '${formattedPrice}')">Pay ₹${Math.round(formattedPrice)} Now</button>
+                </div>
+            `;
+
+            document.getElementById("servicesGrid").appendChild(newCard);
+
+            // Reset Form & Close Modal
+            document.getElementById("newIcon").value = "";
+            document.getElementById("newName").value = "";
+            document.getElementById("newDesc").value = "";
+            document.getElementById("newPrice").value = "";
+            closeModal("adminModal");
+
+            alert("New service added successfully!");
         }
     </script>
 
