@@ -12,6 +12,7 @@
             --text-muted: #6B7280;
             --accent-green: #10B981;
             --accent-indigo: #4F46E5;
+            --accent-red: #EF4444;
         }
 
         * {
@@ -200,7 +201,7 @@
             color: var(--text-muted);
         }
 
-        /* Modal / Popups Style */
+        /* Modal Styles */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -217,10 +218,12 @@
 
         .modal-content {
             background: white;
-            padding: 30px;
+            padding: 28px;
             border-radius: 20px;
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             position: relative;
         }
@@ -239,13 +242,64 @@
             cursor: pointer;
             color: var(--text-muted);
         }
+
+        /* Admin Dashboard Editing Panel */
+        .admin-service-list {
+            margin-top: 20px;
+            border-top: 2px solid #E5E7EB;
+            padding-top: 15px;
+        }
+
+        .admin-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #F9FAFB;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #E5E7EB;
+        }
+
+        .admin-item-info {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .admin-item-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-edit-sm {
+            background: var(--accent-indigo);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-delete-sm {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
     <!-- Header / Hero Banner -->
     <div class="hero">
-        <button class="admin-login-btn" onclick="openAdminModal()">🔑 Admin Login</button>
+        <button class="admin-login-btn" onclick="openLoginModal()">🔑 Admin Login</button>
         <h1>Melvin Sai Infotech</h1>
         <p>Government & Financial Services Portal</p>
         <span class="badge">Fast • Reliable • Instant Payment</span>
@@ -254,59 +308,7 @@
     <!-- Main Content -->
     <div class="main-container">
         <div class="services-grid" id="servicesGrid">
-
-            <!-- Service Card 1 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">🆔</div>
-                    <h3>Aadhaar Mobile Update</h3>
-                    <p>Update or link your mobile number with your Aadhaar Card.</p>
-                </div>
-                <div>
-                    <div class="price-tag">₹50.00</div>
-                    <button class="btn-pay" onclick="payForService('Aadhaar Mobile Update', '50.00')">Pay ₹50 Now</button>
-                </div>
-            </div>
-
-            <!-- Service Card 2 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">🌾</div>
-                    <h3>Ration Card Services</h3>
-                    <p>Apply for new Smart Ration Card, family member addition, or address correction.</p>
-                </div>
-                <div>
-                    <div class="price-tag">₹100.00</div>
-                    <button class="btn-pay" onclick="payForService('Ration Card Service', '100.00')">Pay ₹100 Now</button>
-                </div>
-            </div>
-
-            <!-- Service Card 3 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">💳</div>
-                    <h3>PAN Card Application</h3>
-                    <p>New PAN Card application or correction services with instant tracking.</p>
-                </div>
-                <div>
-                    <div class="price-tag">₹150.00</div>
-                    <button class="btn-pay" onclick="payForService('PAN Card Application', '150.00')">Pay ₹150 Now</button>
-                </div>
-            </div>
-
-            <!-- Service Card 4 -->
-            <div class="card">
-                <div>
-                    <div class="card-icon">🚗</div>
-                    <h3>Driving License / LLR</h3>
-                    <p>Learner's License (LLR) application & renewal support.</p>
-                </div>
-                <div>
-                    <div class="price-tag">₹250.00</div>
-                    <button class="btn-pay" onclick="payForService('Driving License Service', '250.00')">Pay ₹250 Now</button>
-                </div>
-            </div>
-
+            <!-- Services rendered dynamically -->
         </div>
 
         <!-- Custom Amount Payment Box -->
@@ -349,40 +351,120 @@
         </div>
     </div>
 
-    <!-- Admin Dashboard Modal (Add Service) -->
+    <!-- Admin Dashboard Modal (Add & Edit Services) -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
-            <h3>Add New Service</h3>
+            <h3 id="formTitle">Add New Service</h3>
+            
+            <input type="hidden" id="editIndex" value="-1">
+
             <div class="form-group">
                 <label>Icon (Emoji)</label>
-                <input type="text" id="newIcon" placeholder="e.g. 📄">
+                <input type="text" id="serviceIcon" placeholder="e.g. 🆔">
             </div>
             <div class="form-group">
                 <label>Service Name</label>
-                <input type="text" id="newName" placeholder="e.g. Income Certificate">
+                <input type="text" id="serviceName" placeholder="e.g. Aadhaar Mobile Update">
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <input type="text" id="newDesc" placeholder="e.g. Government issued income certificate">
+                <input type="text" id="serviceDesc" placeholder="e.g. Update mobile number with Aadhaar Card">
             </div>
             <div class="form-group">
                 <label>Price (₹)</label>
-                <input type="number" id="newPrice" placeholder="e.g. 60.00" step="0.01">
+                <input type="number" id="servicePrice" placeholder="e.g. 50.00" step="0.01">
             </div>
-            <button class="btn-pay" style="margin-top: 10px;" onclick="addNewService()">Add Service</button>
+            <button class="btn-pay" id="saveServiceBtn" style="margin-top: 10px;" onclick="saveService()">Save Service</button>
+
+            <!-- Admin Manage/Edit Section -->
+            <div class="admin-service-list">
+                <h4 style="margin-bottom: 12px; font-size: 0.95rem; color: var(--text-main);">Manage Existing Services</h4>
+                <div id="adminListContainer"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Function to route fixed service clicks to payment.html
+        // Initial Default Services Data
+        const defaultServices = [
+            {
+                icon: "🆔",
+                name: "Aadhaar Mobile Update",
+                desc: "Update or link your mobile number with your Aadhaar Card.",
+                price: "50.00"
+            },
+            {
+                icon: "🌾",
+                name: "Ration Card Services",
+                desc: "Apply for new Smart Ration Card, family member addition, or address correction.",
+                price: "100.00"
+            },
+            {
+                icon: "💳",
+                name: "PAN Card Application",
+                desc: "New PAN Card application or correction services with instant tracking.",
+                price: "150.00"
+            },
+            {
+                icon: "🚗",
+                name: "Driving License / LLR",
+                desc: "Learner's License (LLR) application & renewal support.",
+                price: "250.00"
+            }
+        ];
+
+        // Load services from LocalStorage or initialize defaults
+        function getServices() {
+            const saved = localStorage.getItem("msi_services");
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            localStorage.setItem("msi_services", JSON.stringify(defaultServices));
+            return defaultServices;
+        }
+
+        function saveServicesToStorage(services) {
+            localStorage.setItem("msi_services", JSON.stringify(services));
+            renderServices();
+            renderAdminList();
+        }
+
+        // Render Cards to Homepage Grid
+        function renderServices() {
+            const services = getServices();
+            const grid = document.getElementById("servicesGrid");
+            grid.innerHTML = "";
+
+            services.forEach(service => {
+                const card = document.createElement("div");
+                card.className = "card";
+                const displayPrice = parseFloat(service.price).toFixed(2);
+                const payPrice = Math.round(parseFloat(service.price));
+
+                card.innerHTML = `
+                    <div>
+                        <div class="card-icon">${service.icon}</div>
+                        <h3>${service.name}</h3>
+                        <p>${service.desc}</p>
+                    </div>
+                    <div>
+                        <div class="price-tag">₹${displayPrice}</div>
+                        <button class="btn-pay" onclick="payForService('${service.name}', '${displayPrice}')">Pay ₹${payPrice} Now</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Route click to payment page
         function payForService(serviceName, price) {
             const orderId = "MSI" + Date.now();
             const targetUrl = `payment.html?amount=${encodeURIComponent(price)}&service=${encodeURIComponent(serviceName)}&orderId=${encodeURIComponent(orderId)}`;
             window.location.href = targetUrl;
         }
 
-        // Function for custom payment input
+        // Custom Payment Handler
         function payCustomAmount() {
             const serviceName = document.getElementById("customService").value.trim() || "General Payment";
             const price = document.getElementById("customAmount").value.trim();
@@ -395,8 +477,8 @@
             payForService(serviceName, price);
         }
 
-        // Modal Controls
-        function openAdminModal() {
+        // Modals Control
+        function openLoginModal() {
             document.getElementById("loginModal").style.display = "flex";
         }
 
@@ -404,7 +486,7 @@
             document.getElementById(modalId).style.display = "none";
         }
 
-        // Admin Authentication
+        // Login Handler
         function handleLogin() {
             const user = document.getElementById("adminUser").value.trim();
             const pass = document.getElementById("adminPass").value.trim();
@@ -413,52 +495,104 @@
                 closeModal("loginModal");
                 document.getElementById("adminUser").value = "";
                 document.getElementById("adminPass").value = "";
+                resetForm();
+                renderAdminList();
                 document.getElementById("adminModal").style.display = "flex";
             } else {
                 alert("Invalid Username or Password!");
             }
         }
 
-        // Dynamic Service Creation
-        function addNewService() {
-            const icon = document.getElementById("newIcon").value.trim() || "⚡";
-            const name = document.getElementById("newName").value.trim();
-            const desc = document.getElementById("newDesc").value.trim();
-            const price = document.getElementById("newPrice").value.trim();
+        // Render List inside Admin Modal for Editing
+        function renderAdminList() {
+            const services = getServices();
+            const container = document.getElementById("adminListContainer");
+            container.innerHTML = "";
+
+            services.forEach((service, idx) => {
+                const item = document.createElement("div");
+                item.className = "admin-item";
+                item.innerHTML = `
+                    <div class="admin-item-info">
+                        ${service.icon} ${service.name} - ₹${parseFloat(service.price).toFixed(2)}
+                    </div>
+                    <div class="admin-item-actions">
+                        <button class="btn-edit-sm" onclick="startEditService(${idx})">Edit</button>
+                        <button class="btn-delete-sm" onclick="deleteService(${idx})">Delete</button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Fill form fields to Edit an existing service
+        function startEditService(index) {
+            const services = getServices();
+            const item = services[index];
+
+            document.getElementById("editIndex").value = index;
+            document.getElementById("serviceIcon").value = item.icon;
+            document.getElementById("serviceName").value = item.name;
+            document.getElementById("serviceDesc").value = item.desc;
+            document.getElementById("servicePrice").value = item.price;
+
+            document.getElementById("formTitle").innerText = "Edit Service Details";
+            document.getElementById("saveServiceBtn").innerText = "Update Service";
+        }
+
+        // Add or Update Service
+        function saveService() {
+            const icon = document.getElementById("serviceIcon").value.trim() || "⚡";
+            const name = document.getElementById("serviceName").value.trim();
+            const desc = document.getElementById("serviceDesc").value.trim();
+            const price = document.getElementById("servicePrice").value.trim();
+            const editIndex = parseInt(document.getElementById("editIndex").value, 10);
 
             if (!name || !desc || !price || isNaN(price) || parseFloat(price) <= 0) {
-                alert("Please fill out all service details properly!");
+                alert("Please fill out all service fields properly!");
                 return;
             }
 
+            const services = getServices();
             const formattedPrice = parseFloat(price).toFixed(2);
 
-            // Create HTML element for the new card
-            const newCard = document.createElement("div");
-            newCard.className = "card";
-            newCard.innerHTML = `
-                <div>
-                    <div class="card-icon">${icon}</div>
-                    <h3>${name}</h3>
-                    <p>${desc}</p>
-                </div>
-                <div>
-                    <div class="price-tag">₹${formattedPrice}</div>
-                    <button class="btn-pay" onclick="payForService('${name}', '${formattedPrice}')">Pay ₹${Math.round(formattedPrice)} Now</button>
-                </div>
-            `;
+            if (editIndex >= 0) {
+                // Update Existing
+                services[editIndex] = { icon, name, desc, price: formattedPrice };
+                alert("Service updated successfully!");
+            } else {
+                // Add New
+                services.push({ icon, name, desc, price: formattedPrice });
+                alert("New service added successfully!");
+            }
 
-            document.getElementById("servicesGrid").appendChild(newCard);
-
-            // Reset Form & Close Modal
-            document.getElementById("newIcon").value = "";
-            document.getElementById("newName").value = "";
-            document.getElementById("newDesc").value = "";
-            document.getElementById("newPrice").value = "";
-            closeModal("adminModal");
-
-            alert("New service added successfully!");
+            saveServicesToStorage(services);
+            resetForm();
         }
+
+        // Delete Service
+        function deleteService(index) {
+            if (confirm("Are you sure you want to delete this service?")) {
+                const services = getServices();
+                services.splice(index, 1);
+                saveServicesToStorage(services);
+                resetForm();
+            }
+        }
+
+        // Reset Admin Form Fields
+        function resetForm() {
+            document.getElementById("editIndex").value = "-1";
+            document.getElementById("serviceIcon").value = "";
+            document.getElementById("serviceName").value = "";
+            document.getElementById("serviceDesc").value = "";
+            document.getElementById("servicePrice").value = "";
+            document.getElementById("formTitle").innerText = "Add New Service";
+            document.getElementById("saveServiceBtn").innerText = "Save Service";
+        }
+
+        // Initialize Page
+        renderServices();
     </script>
 
 </body>
