@@ -500,7 +500,7 @@
 <script>
     // Initial Default Configuration
     let paymentConfig = {
-        vpa: "danielvijay@pytm",                  // Set your default VPA here
+        vpa: "yourbusiness@upi",                  // Set your default VPA here
         name: "Melvin Sai Infotech",               
         amount: "100.00",                         
         note: "Order Payment",  
@@ -550,7 +550,7 @@
 
     // Payment Confirmation Handler
     function confirmPaymentProcess() {
-        const utr = prompt("Enter 12-Digit UPI Ref / UTR Number from your payment app:");
+        const utr = prompt("Enter Your Name:");
         
         if (utr && utr.trim().length >= 8) {
             const container = document.getElementById("gatewayContainer");
@@ -600,7 +600,7 @@
                 </div>
             `;
         } else if (utr !== null) {
-            alert("Please enter a valid 12-Digit UPI Reference Number.");
+            alert("Please enter your Name.");
         }
     }
 
