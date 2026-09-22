@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melvin Sai Infotech - Government & Financial Services</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
+            --card-bg: #ffffff;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --accent-green: #10B981;
+            --accent-indigo: #4F46E5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: #F3F4F6;
+            color: var(--text-main);
+            padding-bottom: 40px;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Container & Grid */
+        .main-container {
+            max-width: 900px;
+            margin: -20px auto 0;
+            padding: 0 20px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        /* Service Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-indigo);
+            margin-bottom: 16px;
+        }
+
+        .btn-pay {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-pay:hover {
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+            transform: translateY(-1px);
+        }
+
+        /* Custom Payment Box */
+        .custom-payment-box {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .custom-payment-box h3 {
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Hero Banner -->
+    <div class="hero">
+        <h1>Melvin Sai Infotech</h1>
+        <p>Government & Financial Services Portal</p>
+        <span class="badge">Fast • Reliable • Instant Payment</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="services-grid">
+
+            <!-- Service Card 1 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon">🆔</div>
+                    <h3>Aadhaar Mobile Update</h3>
+                    <p>Update or link your mobile number with your Aadhaar Card.</p>
+                </div>
+                <div>
+                    <div class="price-tag">₹50.00</div>
+                    <button class="btn-pay" onclick="payForService('Aadhaar Mobile Update', '50.00')">Pay ₹50 Now</button>
+                </div>
+            </div>
+
+            <!-- Service Card 2 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon">🌾</div>
+                    <h3>Ration Card Services</h3>
+                    <p>Apply for new Smart Ration Card, family member addition, or address correction.</p>
+                </div>
+                <div>
+                    <div class="price-tag">₹100.00</div>
+                    <button class="btn-pay" onclick="payForService('Ration Card Service', '100.00')">Pay ₹100 Now</button>
+                </div>
+            </div>
+
+            <!-- Service Card 3 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon">💳</div>
+                    <h3>PAN Card Application</h3>
+                    <p>New PAN Card application or correction services with instant tracking.</p>
+                </div>
+                <div>
+                    <div class="price-tag">₹150.00</div>
+                    <button class="btn-pay" onclick="payForService('PAN Card Application', '150.00')">Pay ₹150 Now</button>
+                </div>
+            </div>
+
+            <!-- Service Card 4 -->
+            <div class="card">
+                <div>
+                    <div class="card-icon">🚗</div>
+                    <h3>Driving License / LLR</h3>
+                    <p>Learner's License (LLR) application & renewal support.</p>
+                </div>
+                <div>
+                    <div class="price-tag">₹250.00</div>
+                    <button class="btn-pay" onclick="payForService('Driving License Service', '250.00')">Pay ₹250 Now</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Custom Amount Payment Box -->
+        <div class="custom-payment-box">
+            <h3>Custom Payment Amount</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Enter a custom amount and service details to pay dynamic amounts.</p>
+            
+            <div class="form-group">
+                <label>Service Description</label>
+                <input type="text" id="customService" placeholder="e.g. e-Sevai Service Bill">
+            </div>
+            
+            <div class="form-group">
+                <label>Amount (₹)</label>
+                <input type="number" id="customAmount" placeholder="e.g. 75.00" step="0.01">
+            </div>
+
+            <button class="btn-pay" style="margin-top: 10px;" onclick="payCustomAmount()">Proceed to Pay</button>
+        </div>
+
+        <div class="footer">
+            © Melvin Sai Infotech. All Rights Reserved. • Instant NPCI UPI Payment Gateway
+        </div>
+    </div>
+
+    <script>
+        // Function to route fixed service clicks to payment.html
+        function payForService(serviceName, price) {
+            const orderId = "MSI" + Date.now();
+            const targetUrl = `payment.html?amount=${encodeURIComponent(price)}&service=${encodeURIComponent(serviceName)}&orderId=${encodeURIComponent(orderId)}`;
+            window.location.href = targetUrl;
+        }
+
+        // Function for custom payment input
+        function payCustomAmount() {
+            const serviceName = document.getElementById("customService").value.trim() || "General Payment";
+            const price = document.getElementById("customAmount").value.trim();
+
+            if (!price || isNaN(price) || parseFloat(price) <= 0) {
+                alert("Please enter a valid payment amount!");
+                return;
+            }
+
+            payForService(serviceName, price);
+        }
+    </script>
+
+</body>
+</html>
