@@ -8,10 +8,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
-            /* Vibrant Gradient & Modern Color Tokens */
-            --bg-gradient: linear-gradient(135deg, #0F172A 0%, #311042 40%, #1E1B4B 100%);
-            --header-gradient: linear-gradient(135deg, #FF007A 0%, #7E22CE 50%, #3B82F6 100%);
-            --card-bg: rgba(255, 255, 255, 0.96);
+            /* Restored Dark Navy/Slate Background Gradient */
+            --bg-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+            --header-gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
+            --card-bg: rgba(255, 255, 255, 0.98);
             --text-main: #0F172A;
             --text-muted: #475569;
             --accent-green: #10B981;
@@ -38,7 +38,7 @@
         .container {
             background: var(--card-bg);
             border-radius: 28px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 40px rgba(236, 72, 153, 0.2);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 30px rgba(79, 70, 229, 0.15);
             width: 100%;
             max-width: 440px;
             overflow: hidden;
@@ -58,7 +58,7 @@
             color: white;
             padding: 38px 20px 28px;
             position: relative;
-            box-shadow: 0 8px 25px rgba(255, 0, 122, 0.3);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
         }
 
         .admin-toggle-btn {
@@ -259,7 +259,7 @@
             font-size: 0.78rem;
             color: #64748B;
             border-top: 1px solid #F1F5F9;
-            background: #FAF5FF;
+            background: #F8FAFC;
             font-weight: 500;
         }
 
@@ -550,16 +550,16 @@
 
     // Payment Confirmation Handler
     function confirmPaymentProcess() {
-        const utr = prompt("Enter Your Name:");
+        const customerName = prompt("Please enter your name (minimum 2 characters):");
         
-        if (utr && utr.trim().length >= 8) {
+        if (customerName && customerName.trim().length >= 2) {
             const container = document.getElementById("gatewayContainer");
             
             container.innerHTML = `
                 <div style="background: linear-gradient(135deg, #10B981, #059669); padding: 35px 20px 25px; color: white;">
                     <div style="font-size: 3.5rem; margin-bottom: 5px; animation: popIn 0.4s ease;">🎉</div>
                     <h2 style="font-size: 1.8rem; font-weight: 800;">Payment Successful!</h2>
-                    <p style="font-size: 0.9rem; opacity: 0.9;">Transaction confirmed by customer</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">Transaction confirmed</p>
                 </div>
                 
                 <div class="content">
@@ -568,6 +568,10 @@
                     </p>
 
                     <div class="receipt-card">
+                        <div class="receipt-row">
+                            <span style="color: #64748B;">Customer Name:</span>
+                            <b style="color: #4F46E5;">${customerName.trim()}</b>
+                        </div>
                         <div class="receipt-row">
                             <span style="color: #64748B;">Service:</span>
                             <b style="color: #0F172A;">${paymentConfig.note}</b>
@@ -579,10 +583,6 @@
                         <div class="receipt-row">
                             <span style="color: #64748B;">Order Ref ID:</span>
                             <b style="color: #0F172A;">${paymentConfig.txnRef}</b>
-                        </div>
-                        <div class="receipt-row">
-                            <span style="color: #64748B;">UPI UTR / Ref No:</span>
-                            <b style="color: #4F46E5;">${utr.trim()}</b>
                         </div>
                         <div class="receipt-row">
                             <span style="color: #64748B;">Status:</span>
@@ -599,8 +599,8 @@
                     🔒 Receipt generated for <span>${paymentConfig.name}</span>
                 </div>
             `;
-        } else if (utr !== null) {
-            alert("Please enter your Name.");
+        } else if (customerName !== null) {
+            alert("Please enter a valid name (at least 2 characters).");
         }
     }
 
